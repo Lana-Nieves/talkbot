@@ -106,7 +106,7 @@ function Commands() {
 
     // eat exceptions so poorly written commands don't take down the bot
     try {
-      return this.commands[key].execute.apply(this, args);
+      return this.commands[key].run.apply(this, args);
     }
     catch(ex)
     {
@@ -165,7 +165,7 @@ function Commands() {
     }
     return ret;
   };
-  
+
   // is this Message a command message?
   this.isCommand = function(message, server) {
     var char = this.getCommandChar(server);
@@ -181,15 +181,15 @@ function Commands() {
     if ( server ) return (server.command_char || this.command_char || '!');
     else return (this.command_char || '!');
   };
-  
+
   // process a message coming in from the real world
   this.process = function(message, server, world) {
-    
+
     var parts = [];
     const command_char = this.getCommandChar(server);
     if ( !this.isCommand(message, server)) return;
 
-    if ( this.isHelpCommand(message)) 
+    if ( this.isHelpCommand(message))
     {
       parts = [command_char+'help', command_char, 'help'];
     }
@@ -197,8 +197,8 @@ function Commands() {
       parts = message.content.match(
         new RegExp("(" + Common.escapeRegExp(this.getCommandChar(server)) + ")([^ ]+)(.*)", "i")
       );
-    }    
-    
+    }
+
     if (!parts || parts.length < 2) {
       return;
     }
@@ -231,9 +231,9 @@ function Commands() {
 
     //this is for the new way... v3 of writing commands, so we can use argument destructoring
     if (command instanceof Command) {
-      command.execute({input : msgDets});
+      command.run({input : msgDets});
     } else {
-      command.execute.apply(this, [msgDets]);
+      command.run.apply(this, [msgDets]);
     }
   };
 }

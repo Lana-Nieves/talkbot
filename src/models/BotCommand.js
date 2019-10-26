@@ -28,6 +28,10 @@ class BotCommand {
   execute () {
 
   }
+
+  run (args) {
+    this.execute.apply(this, [args]);
+  }
 };
 
 module.exports = BotCommand;
