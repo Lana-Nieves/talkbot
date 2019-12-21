@@ -1,5 +1,7 @@
 /*jshint esversion: 9 */
-const {createDb, migrate} = require("postgres-migrations-oasis"),
+
+const path = require('path'),
+  {createDb, migrate} = require("postgres-migrations-oasis"),
   auth = require("../../config/auth.json");
 
 if(!auth.db) {
@@ -12,7 +14,7 @@ const setup = async () => {
     defaultDatabase: "postgres", // defaults to "postgres"
   });
 
-  await migrate(auth.db, "../sql");
+  await migrate(auth.db, path.resolve(process.cwd(), "src/sql"));
 };
 
 setup();
