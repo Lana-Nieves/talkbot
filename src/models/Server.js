@@ -59,7 +59,7 @@ class Server {
     this.stats = state_data.stats || {};
 
     // statistics on this server
-    this.stats = state_data.stats || {};
+    this.daily_stats = state_data.daily_stats || {};
 
     // when was the server originally created
     this.created = state_data.created || new Date();

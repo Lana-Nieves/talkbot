@@ -19,10 +19,23 @@
     figlet = require('figlet'),
     botStuff = require('@helpers/bot-stuff'),
     Common = require('@helpers/common'),
-    testing = require('@helpers/runtime-testing');
+    auth = require('@auth'),
+    testing = require('@helpers/runtime-testing'),
+    Sequelize = require('sequelize');
 
   //models
   var world = require('@models/World');
+
+  if(!auth.db) {
+    throw "Requires db config object db.database, db.user, db.password, db.host, db.port";
+  }
+
+  const sequalize = new Sequelize(`postgres://${auth.db.user}:${auth.db.password}@${auth.db.host}:${auth.db.port}/${auth.db.database}`,{
+    // max: 5,
+    // min: 0,
+    // acquire: 30000,
+    // idle: 10000
+  });
 
   var bot = botStuff.bot;
 
@@ -98,7 +111,7 @@
       if ( message.member && message.member.id == bot.user.id ) return;
 
       var server = null;
-      
+
       // if its in a server and not a DM
       if ( message.guild ) {
         server = world.servers[message.guild.id];
@@ -143,7 +156,7 @@
   bot.on('warn',             info     => Common.error('warn:' + info));
 
   bot.on('disconnect',             info     => Common.error('disconnect:' + info));
-  
+
   // ctrl-c
   process.on('SIGINT', () => world.kill('SIGINT'));
 
