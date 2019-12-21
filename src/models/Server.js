@@ -58,6 +58,9 @@ class Server {
     // statistics on this server
     this.stats = state_data.stats || {};
 
+    // statistics on this server
+    this.stats = state_data.stats || {};
+
     // when was the server originally created
     this.created = state_data.created || new Date();
 
@@ -225,18 +228,18 @@ class Server {
   // get the server to join a voice channel
   // NOTE: this is async, so if you want to run a continuation use .then on the promise returned
   joinVoiceChannel(voiceChannel) {
-  
+
     var server = this;
     if (server.connecting) return Common.error('joinVoiceChannel(' + voiceChannel.id + '): tried to connect twice!');
     if (server.inChannel()) return Common.error('joinVoiceChannel(' + voiceChannel.id + '): already joined to ' + server.guild.voiceConnection.channel.id + '!');
     server.connecting = true;
-    
+
     // join the voice channel and setup all the listeners to deal with events
     var p = voiceChannel
       .join()
       .then(connection => {
         // success
-        
+
         // when closing stop the voices and clear the neglect timeout
         connection.on('closing', () => {
           server.leaving = true;
@@ -251,7 +254,7 @@ class Server {
           server.permitted = {};
           server.leaving = false;
         });
-        
+
         // if an error occurs treat it like a d/c but capture the error
         // reset the state to as if there was no connection
         connection.on('error', error => {
@@ -269,7 +272,7 @@ class Server {
         commands.notify('joinVoice', {server: server});
 
       }, error => {
-        
+
         // on an error treat it like a error on the connection
         server.stop('joinError');
         server.bound_to = null;
@@ -287,8 +290,8 @@ class Server {
     if (!voiceChannel) return Common.error(new Error("null voiceChannel passed"));
     if (!server.guild.voiceConnection) return server.joinVoiceChannel(voiceChannel).then(null, Common.error).catch(Common.error);
     if (voiceChannel.id == server.guild.voiceConnection.channel.id ) return Common.error('voiceChannel already joined');
-    
-    server.guild.voiceConnection.updateChannel(voiceChannel);    
+
+    server.guild.voiceConnection.updateChannel(voiceChannel);
   }
 
   // permit another user to speak
@@ -496,8 +499,8 @@ class Server {
     // play the content
     server.playing = true;
     clearTimeout(server.voice_timeout);
-    server.voice_timeout = setTimeout(() => server.guild.voiceConnection.dispatcher ? 
-                                            server.guild.voiceConnection.dispatcher.end('timeout') : 
+    server.voice_timeout = setTimeout(() => server.guild.voiceConnection.dispatcher ?
+                                            server.guild.voiceConnection.dispatcher.end('timeout') :
                                             null, 60000);
 
     try {

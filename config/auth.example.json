@@ -19,6 +19,13 @@
       "twitch_audioQueue_limit": 10
     }
   },
+  "db" : {
+    "database": "database-name",
+    "user": "postgres",
+    "password": "password",
+    "host": "localhost",
+    "port": 5432
+  },
   "tts": {
     "google": {
       "enabled": true

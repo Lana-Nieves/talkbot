@@ -5,7 +5,8 @@
   "main": "bot.js",
   "author": "YOUR-NAME-HERE",
   "scripts": {
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "migrate": "node src/scripts/migrate.js"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^0.3.0",
@@ -44,6 +45,7 @@
     "patch-package": "^6.2.0",
     "pg": "^7.12.1",
     "polly-tts": "^1.0.4",
+    "postgres-migrations-oasis": "^3.0.2",
     "prism-media": "^1.1.0",
     "query-objects": "0.0.6",
     "recursive-readdir": "^2.2.2",
