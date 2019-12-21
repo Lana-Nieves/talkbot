@@ -5,7 +5,7 @@ const path = require('path'),
   auth = require("../../config/auth.json");
 
 if(!auth.db) {
-  throw "Requires db config object db.databaseName, db.user, db.password, db.host, db.port";
+  throw "Requires db config object db.database, db.user, db.password, db.host, db.port";
 }
 
 const setup = async () => {
